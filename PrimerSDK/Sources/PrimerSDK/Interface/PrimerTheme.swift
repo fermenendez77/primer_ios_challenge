@@ -10,7 +10,15 @@ import UIKit
 
 public struct PrimerTheme {
     
-    public let cornerRadiusTheme : PrimerCornerRadiusTheme = PrimerCornerRadiusTheme()
-    public let paymentButtonColor : UIColor = .systemGreen
-    public let colorTheme : PrimerColorTheme = PrimerColorTheme()
+    public let cornerRadiusTheme : PrimerCornerRadiusTheme
+    public let paymentButtonColor : UIColor
+    public let colorTheme : PrimerColorTheme
+    
+    public init(cornerRadiusTheme : PrimerCornerRadiusTheme = PrimerCornerRadiusTheme(),
+                paymentButtonColor : UIColor = .systemGreen,
+                colorTheme : PrimerColorTheme = PrimerColorTheme() ) {
+        self.cornerRadiusTheme = cornerRadiusTheme
+        self.paymentButtonColor = paymentButtonColor
+        self.colorTheme = colorTheme
+    }
 }

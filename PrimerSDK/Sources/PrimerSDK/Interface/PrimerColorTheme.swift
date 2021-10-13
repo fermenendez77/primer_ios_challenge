@@ -10,8 +10,15 @@ import UIKit
 
 public struct PrimerColorTheme {
     
-    public let background : UIColor = .systemBackground
-    public let label : UIColor = .label
-    public let loadingTintColor : UIColor = .systemGray
+    public let background : UIColor
+    public let label : UIColor
+    public let loadingTintColor : UIColor
     
+    public init(background : UIColor = .systemBackground,
+                label : UIColor = .label,
+                loadingTintColor : UIColor = .systemGray) {
+        self.background = background
+        self.label = label
+        self.loadingTintColor = loadingTintColor
+    }
 }

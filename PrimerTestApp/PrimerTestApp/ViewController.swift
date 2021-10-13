@@ -16,31 +16,31 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         tokenFetcher = PrimerCheckoutTokenFetcherImp()
         Primer.shared.delegate = self
+    }
+    
+    
+    @IBAction func defaultPressentationButtonPressed(_ sender: Any) {
         Primer.shared.settings = PrimerSettings(amount: 20.0, currency: .eur)
-        configureView()
-    }
-    
-    func configureView() {
-        let button = UIButton(frame: CGRect(x: 0, y: 0,
-                                            width: 100, height: 100))
-        button.setTitle("Present SDK", for: .normal)
-        button.setTitleColor(.blue, for: .normal)
-        button.backgroundColor = .yellow
-        button.isUserInteractionEnabled = true
-        button.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(button)
-        button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-            .isActive = true
-        button.centerYAnchor.constraint(equalTo: view.centerYAnchor)
-            .isActive = true
-        button.addTarget(self,
-                         action: #selector(presentSDKButtonPressed),
-                         for: .touchUpInside)
-    }
-    
-    @objc func presentSDKButtonPressed() {
         Primer.shared.showCheckout(on: self)
     }
+    
+    
+    @IBAction func customPresentationButtonPressed(_ sender: Any) {
+        Primer.shared.settings = PrimerSettings(amount: 50.0, currency: .usd)
+        // Configure Theme
+        let colorTheme = PrimerColorTheme(background: UIColor(named: "backgroundCheckout")!,
+                                          label: UIColor(named: "labelsCheckout")!,
+                                          loadingTintColor: .systemBlue)
+        let theme = PrimerTheme(cornerRadiusTheme: PrimerCornerRadiusTheme(sheet: 8.0,
+                                                                           buttons: 12.0,
+                                                                           textfields: 10.0),
+                                paymentButtonColor: UIColor(named: "buttonCheckout")!,
+                                colorTheme: colorTheme)
+        // Set the Theme to PrimerSDK
+        Primer.shared.theme = theme
+        Primer.shared.showCheckout(on: self)
+    }
+
 }
 
 extension ViewController : PrimerDelegate {
@@ -49,6 +49,7 @@ extension ViewController : PrimerDelegate {
     func onTokenizeSuccess(_ paymentMethodToken: PaymentMethod,
                            completion: (Result<Void,Error>) -> Void) {
         print(paymentMethodToken)
+        // MARK: Mocked call
         createPament(with: paymentMethodToken) { result in
             switch result {
             case .success():
@@ -61,7 +62,6 @@ extension ViewController : PrimerDelegate {
     
     
     func clientTokenCallback(_ completion: @escaping (Result<PrimerAccessToken,Error>) -> Void) {
-        
         // MARK: This should be an API Call to your Backend for getting the accessToken
         tokenFetcher?.getToken { result in
             switch result {
