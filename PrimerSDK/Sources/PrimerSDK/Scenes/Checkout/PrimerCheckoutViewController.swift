@@ -13,6 +13,7 @@ public class PrimerCheckoutViewController : UIViewController {
     private let theme : PrimerTheme
     private var viewModel : PrimerCheckoutViewModel
     
+    @IBOutlet weak var paymentLoadingView: ProcessingPaymentStatusView!
     @IBOutlet weak var innerContainerView: UIView!
     @IBOutlet weak var cardNumberLabel: UILabel!
     @IBOutlet weak var cardNumberTextField: PrimerTextField!
@@ -141,6 +142,29 @@ public class PrimerCheckoutViewController : UIViewController {
                 }, completion: { _ in
                     self.loadingView.isHidden = true
                 })
+            }
+        }
+        
+        viewModel.state.bind { [weak self] state in
+            guard let self = self else {
+                return
+            }
+            self.paymentLoadingView.state = state
+            switch state {
+            case .success:
+                self.paymentLoadingView.isHidden = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            case .error:
+                self.paymentLoadingView.isHidden = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                    self.dismiss(animated: true, completion: nil)
+                }
+            case .ready:
+                self.paymentLoadingView.isHidden = true
+            case .processing:
+                self.paymentLoadingView.isHidden = false
             }
         }
     }

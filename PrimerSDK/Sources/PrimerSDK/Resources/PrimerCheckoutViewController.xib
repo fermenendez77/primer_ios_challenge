@@ -23,6 +23,7 @@
                 <outlet property="nameOnCardLabel" destination="flb-UQ-mTS" id="5Ec-J4-Faa"/>
                 <outlet property="nameTextField" destination="ayl-Dy-jrr" id="aqn-vk-QsW"/>
                 <outlet property="payButton" destination="OHW-Ld-t1s" id="CO1-gt-boC"/>
+                <outlet property="paymentLoadingView" destination="Dxz-TK-KL5" id="UoH-22-f52"/>
                 <outlet property="view" destination="iN0-l3-epB" id="9MG-8x-3NE"/>
                 <outlet property="yearLabel" destination="iQW-H9-CPT" id="MdN-3a-ES5"/>
             </connections>
@@ -149,21 +150,35 @@
                                 </button>
                             </subviews>
                         </stackView>
+                        <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Dxz-TK-KL5" userLabel="payment loading" customClass="ProcessingPaymentStatusView" customModule="PrimerSDK">
+                            <rect key="frame" x="20" y="20" width="374" height="350.5"/>
+                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        </view>
                         <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fVg-CN-cXV" customClass="PrimerCheckoutLoadingView" customModule="PrimerSDK">
                             <rect key="frame" x="20" y="20" width="374" height="350.5"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                            <constraints>
+                                <constraint firstAttribute="leading" secondItem="fVg-CN-cXV" secondAttribute="leading" id="QmX-qC-EHb"/>
+                                <constraint firstAttribute="top" secondItem="fVg-CN-cXV" secondAttribute="top" id="Zte-mh-WTz"/>
+                                <constraint firstAttribute="trailing" secondItem="fVg-CN-cXV" secondAttribute="trailing" id="cm0-Bs-u0m"/>
+                                <constraint firstAttribute="bottom" secondItem="fVg-CN-cXV" secondAttribute="bottom" id="zgi-OK-vbK"/>
+                            </constraints>
                         </view>
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
+                        <constraint firstItem="Dxz-TK-KL5" firstAttribute="top" secondItem="gVY-Ov-NqP" secondAttribute="top" constant="20" id="6q3-Zg-MdK"/>
                         <constraint firstItem="fVg-CN-cXV" firstAttribute="leading" secondItem="gVY-Ov-NqP" secondAttribute="leading" constant="20" id="BsW-el-q0r"/>
                         <constraint firstItem="y5s-fB-Ylg" firstAttribute="leading" secondItem="gVY-Ov-NqP" secondAttribute="leading" constant="20" id="CxA-tR-Tdh"/>
                         <constraint firstItem="y5s-fB-Ylg" firstAttribute="top" secondItem="gVY-Ov-NqP" secondAttribute="top" constant="20" id="MfT-AO-M1V"/>
                         <constraint firstItem="fVg-CN-cXV" firstAttribute="top" secondItem="gVY-Ov-NqP" secondAttribute="top" constant="20" id="PQd-7V-zl6"/>
+                        <constraint firstAttribute="bottom" secondItem="Dxz-TK-KL5" secondAttribute="bottom" constant="20" id="TMr-7F-3UP"/>
                         <constraint firstAttribute="bottom" secondItem="y5s-fB-Ylg" secondAttribute="bottom" constant="50" id="U6J-0g-JOC"/>
+                        <constraint firstItem="Dxz-TK-KL5" firstAttribute="leading" secondItem="gVY-Ov-NqP" secondAttribute="leading" constant="20" id="e0g-Va-JQ4"/>
                         <constraint firstAttribute="bottom" secondItem="fVg-CN-cXV" secondAttribute="bottom" constant="20" id="kdd-9Y-IgX"/>
                         <constraint firstAttribute="trailing" secondItem="y5s-fB-Ylg" secondAttribute="trailing" constant="20" id="luA-gq-jtW"/>
                         <constraint firstAttribute="trailing" secondItem="fVg-CN-cXV" secondAttribute="trailing" constant="20" id="oBf-Yx-IWC"/>
+                        <constraint firstAttribute="trailing" secondItem="Dxz-TK-KL5" secondAttribute="trailing" constant="20" id="pDx-qU-ppk"/>
                     </constraints>
                 </view>
             </subviews>

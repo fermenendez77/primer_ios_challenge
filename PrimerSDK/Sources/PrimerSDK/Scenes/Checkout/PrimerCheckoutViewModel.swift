@@ -18,7 +18,7 @@ public class PrimerCheckoutViewModel {
     var settings : PrimerSettings?
     
     var holderName : Binding<String> = Binding("")
-    var cardNumber : Binding<String> = Binding("")
+    var cardNumber : Binding<String> = Binding("4111")
     var cvv : Binding<String> = Binding("")
     var expiryMonth : Binding<String> = Binding("")
     var expiryYear : Binding<String> = Binding("")
@@ -29,6 +29,7 @@ public class PrimerCheckoutViewModel {
     var isValidExpiryDate = Binding(false)
     var isFormValid = Binding(false)
     var isLoadingAccessToken = Binding(true)
+    var state : Binding<CheckoutStates> = Binding(.ready)
     
     var buttonLabel : String {
         guard let settings = settings else {
@@ -127,7 +128,7 @@ public class PrimerCheckoutViewModel {
                 case .failure(let error):
                     self.token = nil
                     self.storeService.remove(for: self.savedTokenKey)
-                    print(error)
+                    self.delegate?.checkoutFailed(with: error)
                 }
             }
         }
@@ -135,6 +136,7 @@ public class PrimerCheckoutViewModel {
     
     public func processPayment() {
         if let token = token, isFormValid.value {
+            state.value = .processing
             let payload = PaymentPayload(number: cardNumber.value,
                                          cvv: cvv.value,
                                          expirationMonth: "11",
@@ -149,12 +151,22 @@ public class PrimerCheckoutViewModel {
                 switch result {
                 case .success(let paymentMethod):
                     self.delegate?.onTokenizeSuccess(paymentMethod) { result in
-                        
+                        switch result {
+                        case .success(_):
+                            self.state.value = .success
+                        case .failure(_):
+                            self.state.value = .error
+                        }
                     }
                 case .failure(let error):
+                    self.state.value = .error
                     self.delegate?.checkoutFailed(with: error)
                 }
             }
         }
     }
+}
+
+enum CheckoutStates {
+    case success, error, ready, processing
 }

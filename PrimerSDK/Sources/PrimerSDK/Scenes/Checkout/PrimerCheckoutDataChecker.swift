@@ -46,8 +46,14 @@ class PrimerCheckoutDataCheckerImp : PrimerCheckoutDataChecker {
             return false
         }
         let now = Date()
-        let nowMonth = Calendar.current.component(.month, from: now)
-        let nowYear = Calendar.current.component(.year, from: now)
-        return nowYear <= year && nowMonth <= month
+        var dateComponents = DateComponents()
+        let calendar = Calendar.current
+        dateComponents.month = month
+        dateComponents.year = year
+        if let expirationDate = calendar.date(from: dateComponents) {
+            return expirationDate > now
+        } else {
+            return false
+        }
     }
 }
